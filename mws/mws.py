@@ -46,7 +46,7 @@ MARKETPLACES = {
     "UK" : "https://mws-eu.amazonservices.com", #A1F83G8C2ARO7P
     "JP" : "https://mws.amazonservices.jp", #A1VC38T7YXB528
     "CN" : "https://mws.amazonservices.com.cn", #AAHKV2X7AFYLW
-    "MX" : "https://mws.amazonservices.com.mx", #A1AM78C64UM0Y8    
+    "MX" : "https://mws.amazonservices.com.mx", #A1AM78C64UM0Y8
 }
 
 
@@ -614,6 +614,21 @@ class Inventory(MWS):
 class OutboundShipments(MWS):
     URI = "/FulfillmentOutboundShipment/2010-10-01"
     VERSION = "2010-10-01"
+
+    def list_all_fulfillment_orders(self, query_start_date_time):
+        data = dict(Action='ListAllFulfillmentOrders',
+                    QueryStartDateTime=query_start_date_time)
+        return self.make_request(data, "POST")
+
+    def list_all_fulfillment_orders_by_next_token(self, next_token):
+        data = dict(Action='ListAllFulfillmentOrdersByNextToken',
+                    NextToken=next_token)
+        return self.make_request(data, "POST")
+
+    def get_fulfillment_order(self, seller_fulfillment_order_id):
+        data = dict(Action='GetFulfillmentOrder',
+                    SellerFulfillmentOrderId='seller_fulfillment_order_id')
+        return self.make_request(data, "POST")
     # To be completed
 
 
